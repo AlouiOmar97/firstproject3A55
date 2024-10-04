@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block body %}
+    <h1>Hello {{ title }}! ✅</h1>
+    <a href="{{path('app_home',{nom:'Ali'})}}">Vers home Ali</a>
+    <a href="{{path('app_home',{nom:'Ahmed'})}}">Vers home Ahmed</a>
+    <p> {{ productTitle }} </p>
+    <p> Version de twig: -{{ constant('Twig\\Environment::VERSION') }}​   </p>
+    {% set pi=3.14 %}
+    <p> <b>PI :</b> {{ pi }} </p>
+    {% set prenom="Ahmed" %}
+    <p> {{ prenom }} </p>
+    {% set tableau={nom:"Ali", age:31} %}
+
+    {% for k, v in tableau %}
+    <p>{{ k }}: {{ v }} </p>
+    <p> {{ k ~ ' --- ' ~ v }} </p>
+    {% else %}
+    <p>Tableau vide.</p>
+    {% endfor %}
+
+    {% for i in 5..9 %}
+    <p>{{ i }}</p>
+    {% endfor %}
+    {% if tableau is empty %}
+    <p>Le tableau est vide.</p>
+    {% else %}
+    <p>Le tableau contient des données.</p>
+    {% endif %}
+    <p> {{ tableau['nom'] | upper | lower }} </p>
+
+    <p> {{ 'Hello World !!'|slice(6, 5) }} </p>
+    <p> {{ '  I like Twig.  '|trim }}</p>
+    <p> {{ '  I like Twig.'|trim('.') }} </p>
+
+    <p>
+    {% apply lower %}
+    abc abCD KL def
+    {% endapply %} 
+    </p>
+
+    <p>longeur du tableau: {{ tableau | length }} </p>
+
+    {{ dump(tableau) }}
+{% endblock %}
