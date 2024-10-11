@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
+use App\Repository\AuthorRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,20 +30,38 @@ class AuthorController extends AbstractController
     }
 
     #[Route('/author/list', name: 'app_author_list')]
-    public function authorsList(){
+    public function authorsList(AuthorRepository $authorRepository){
+        $authorsDB= $authorRepository->findAll();
         return $this->render('author/list.html.twig',[
-            'authors' => $this->authors
+            'authors' => $authorsDB
         ]);
     }
 
+    #[Route('/author/add', name: 'app_author_add')]
+    public function addAuthor(EntityManagerInterface $em){
+        $author= new Author();
+        $author->setUsername('Ali');
+        $author->setEmail('ali@gmail.com');
+        $author->setPicture('/images/Taha_Hussein.jpg');
+        $author->setNbBooks(250);
+        $em->persist($author);
+        $em->flush();
+        dd($author);
+
+    }
+
+    #[Route('/author/delete/{id}', name: 'app_author_delete')]
+    public function deleteAuthor($id, AuthorRepository $authorRepository, EntityManagerInterface $em){
+        $author = $authorRepository->find($id);
+        $em->remove($author);
+        $em->flush();
+        dd('Author deleted');
+    }
+
     #[Route('/author/details/{id}', name: 'app_author_details')]
-    public function authorDetails($id){
-        $author = null;
-        for ($i=0; $i < sizeof($this->authors); $i++) { 
-            if($id == $this->authors[$i]['id']){
-               $author= $this->authors[$i];
-            }
-        }
+    public function authorDetails($id, AuthorRepository $authorRepository){
+        //$author= $this->authors[ $id -1];
+        $author= $authorRepository->find($id);
         return $this->render('author/details.html.twig',[
             'author' => $author
         ]);
