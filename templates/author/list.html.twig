@@ -4,6 +4,7 @@
 
 {% block body %}
 <h1>Authors List </h1>
+<a href="{{path('app_author_new')}}">Add Author</a>
 <div>
 {% if authors is defined and authors is empty %}
 <p>Array Empty.</p>
@@ -18,6 +19,8 @@
 <p><b>Email : </b> {{ author.email }} </p>
 <p><b>Number of Books : </b> {{ author.nbBooks }} </p>
 <a href="{{path('app_author_details',{ id : author.id })}}">Details</a>
+<a href="{{path('app_author_edit', { id : author.id })}}" >Edit</a>
+<a href="{{path('app_author_delete', { id : author.id })}}" >Delete</a>
 <hr>
 {% else %}
 <p>Array is Empty.</p>
