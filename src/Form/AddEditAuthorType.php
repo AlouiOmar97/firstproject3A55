@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Author;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +15,7 @@ class AddEditAuthorType extends AbstractType
     {
         $builder
         ->add('username')
-        ->add('email')
+        ->add('email', EmailType::class)
         ->add('picture')
         ->add('nbBooks')
         ->add('Send', SubmitType::class)
