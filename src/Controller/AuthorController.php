@@ -106,7 +106,7 @@ class AuthorController extends AbstractController
     #[Route('/author/details/{id}', name: 'app_author_details')]
     public function authorDetails($id, AuthorRepository $authorRepository){
         //$author= $this->authors[ $id -1];
-        $author= $authorRepository->findAuthorByUsernameDQL('William Shakespeare DB');
+        $author= $authorRepository->findAuthorByUsername('William');
         dd($author);
         return $this->render('author/details.html.twig',[
             'author' => $author

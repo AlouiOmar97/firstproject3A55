@@ -22,21 +22,24 @@ class AuthorRepository extends ServiceEntityRepository
         public function findAuthorByUsername(string $username)
         {
             return $this->createQueryBuilder('a')
-                ->andWhere('a.username = :val')
-                ->setParameter('val', $username)
+                //->select('a.email')
+                ->andWhere('a.username LIKE :username')
+                ->andWhere(' a.email = :email')
+                ->setParameter('username', '%'.$username.'%')
+                ->setParameter('email', 'ali@gmail.com')
                 ->orderBy('a.id', 'DESC')
-                ->setMaxResults(1)
+                ->setMaxResults(2)
                 ->getQuery()
-                ->getDQL()
+                ->getResult ()
             ;
         }
 
         public function findAuthorByUsernameDQL(string $username)
         {
             return $this->getEntityManager()
-            ->createQuery("SELECT a.username FROM App\Entity\Author a WHERE a.username = :val ORDER BY a.id DESC")
-            ->setParameter('val', $username)
-            ->getResult()
+            ->createQuery("SELECT COUNT(a.username) FROM App\Entity\Author a WHERE a.username = ?1 ORDER BY a.id DESC")
+            ->setParameter('1', $username)
+            ->getSingleScalarResult()
             ;
         }
 

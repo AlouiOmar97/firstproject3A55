@@ -81,6 +81,12 @@ class BookController extends AbstractController
         ]);
     }
 
+    #[Route('/author', name: 'app_book_author')]
+    public function bookAuthor(BookRepository $bookRepository){
+        $book= $bookRepository->findBookByAuthorDQL();
+        dd($book);
+    }
+
     #[Route('/delete/{ref}', name: 'app_book_delete')]
     public function deleteBook($ref, BookRepository $bookRepository, EntityManagerInterface $em) {
         $book= $bookRepository->find($ref);
